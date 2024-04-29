@@ -1,0 +1,2 @@
+org.jsoup.HttpStatusException
+org.jsoup.SerializationException
