@@ -1,6 +1,7 @@
 package org.jsoup.internal;
 
 import org.jsoup.Jsoup;
+import org.jsoup.internal.StringUtil.StringJoiner;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -12,6 +13,52 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class StringUtilTest {
 
+    @Test
+    public void joinEmpty() {
+        assertEquals("", StringUtil.join(Arrays.asList(), " "));
+    }
+    
+    @Test
+    public void append() {
+    	StringJoiner j = new StringJoiner(" ");
+    	j.append("test");
+    }
+
+    @Test public void isNumericEmpty() {
+        assertFalse(StringUtil.isNumeric(""));
+    }
+
+    @Test
+    public void startsWithNewlineNull() {
+    	assertEquals(false, StringUtil.startsWithNewline(null));
+    }
+    @Test
+    public void startsWithNewlineEmpty() {
+    	assertEquals(false, StringUtil.startsWithNewline(""));
+    }
+    @Test
+    public void startsWithNewlineFalse() {
+    	assertEquals(false, StringUtil.startsWithNewline("test"));
+    }
+    @Test
+    public void startsWithNewlineTrue() {
+    	assertEquals(true, StringUtil.startsWithNewline("\ntest"));
+    }
+
+    @Test public void isActuallyWhitespace() {
+        assertTrue(StringUtil.isActuallyWhitespace(160));
+    }
+
+    @Test public void paddingNegative() {
+    	IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {StringUtil.padding(-1, 1);});
+        assertTrue(thrown.getMessage().contains("width must be >= 0"));
+    }
+
+    @Test public void paddingMaxWidthNegative() {
+    	IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {StringUtil.padding(1, -2);});
+        assertTrue(thrown.getMessage().contains("Must be true"));
+    }
+    
     @Test
     public void join() {
         assertEquals("", StringUtil.join(Collections.singletonList(""), " "));
